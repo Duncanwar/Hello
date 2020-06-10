@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 1,
     elevation: 2,
-    flex: '1',
-    flexDirection: 'row !important',
+    flex: 1,
+    flexDirection: 'row',
   },
   text: {
     fontWeight: 'bold',
