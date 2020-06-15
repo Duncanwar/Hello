@@ -2,7 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import PalettePreview from '../screens/PalettePreview';
 
-const Home = ({ navigation }) => {
+const Home = ({ navigation, route }) => {
+  const colorPalette = route.params ? route.params.colorPalette : undefined;
   const [color, setColor] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -16,6 +17,10 @@ const Home = ({ navigation }) => {
     }
   }, []);
 
+  useEffect(() => {
+    handlePallete();
+  }, []);
+
   const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);
     await handlePallete();
@@ -25,8 +30,11 @@ const Home = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    handlePallete();
-  }, []);
+    if (colorPalette) {
+      console.log(colorPalette);
+      setColor((current) => [colorPalette, ...current]);
+    }
+  }, [colorPalette]);
 
   return (
     <FlatList
