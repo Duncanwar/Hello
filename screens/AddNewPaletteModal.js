@@ -165,9 +165,18 @@ const AddNewPaletteModal = ({ navigation }) => {
   const [name, setName] = useState('');
   const [selectedColor, setSelectedColor] = useState([]);
 
-  const handleUpdate = useCallback(() => {
-  
-  }, []);
+  const handleUpdate = useCallback(
+    (color, newValue) => {
+      if (newValue === true) {
+        setSelectedColor((current) => [...current, color]);
+      } else {
+        setSelectedColor((current) =>
+          current.filter((c) => c.colorName !== color.colorName),
+        );
+      }
+    },
+    [selectedColor, setSelectedColor],
+  );
 
   const handleName = useCallback(() => {
     if (!name) {
@@ -175,11 +184,11 @@ const AddNewPaletteModal = ({ navigation }) => {
     } else {
       const colorPalette = {
         paletteName: name,
-        colors: [],
+        colors: selectedColor,
       };
       navigation.navigate('Home', { colorPalette });
     }
-  }, [name]);
+  }, [name, selectedColor]);
   return (
     <View style={styles.list}>
       <View>
@@ -203,7 +212,14 @@ const AddNewPaletteModal = ({ navigation }) => {
         renderItem={({ item }) => (
           <View style={styles.toogle}>
             <Text>{item.colorName}</Text>
-            <Switch value={true} />
+            <Switch
+              value={
+                !!selectedColor.find(
+                  (color) => color.colorName === item.colorName,
+                )
+              }
+              onValueChange={(newValue) => handleUpdate(item, newValue)}
+            />
           </View>
         )}
       />
