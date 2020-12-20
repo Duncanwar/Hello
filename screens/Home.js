@@ -31,7 +31,6 @@ const Home = ({ navigation, route }) => {
 
   useEffect(() => {
     if (colorPalette) {
-      console.log(colorPalette);
       setColor((current) => [colorPalette, ...current]);
     }
   }, [colorPalette]);
